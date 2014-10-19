@@ -40,7 +40,7 @@ selTrain <- cbind(activitiesTrain,selTrain)
 selTest <- cbind(activitiesTest,selTest)
 
 
-## Combine test and train data by rows into one larg data set
+## Combine test and train data by rows into one large data set
 totalData <- rbind(selTest,selTrain)
 
 ## Name the first two columns that contain activities and subjects
