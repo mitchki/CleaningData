@@ -7,6 +7,8 @@ download.file(fileURL,destfile = "projectZIP.zip")
 dateZipDownloaded <- date()
 unzip("projectZIP.zip")
 
+library(data.table)
+
 ## read all the data into R
 features <- read.table("UCI HAR Dataset/features.txt")
 varNames <- features[,2]
@@ -55,6 +57,21 @@ totalData$Activities <- factor(totalData$Activities,labels=activityNames)
 setorder(totalData,Subjects)
 totalData$Subjects <- factor(totalData$Subjects)
 
-## Create tidy data set with means for each variable by Activity and Subject
-tidyData <- totalData[,lapply(.SD,mean),by=c("Activities","Subjects")]
+## Create tidy data set with means for each remaining variable 
+## by Activity and Subject
+tidy <- totalData[,lapply(.SD,mean),by=c("Activities","Subjects")]
+
+## Clean up variable names
+names(tidy)<- gsub("...X","Xaxis",names(tidy))
+names(tidy)<- gsub("...Y","Yaxis",names(tidy))
+names(tidy)<- gsub("...Z","Zaxis",names(tidy))
+names(tidy)<- gsub("^t","time",names(tidy))
+names(tidy)<- gsub("^f","frequency",names(tidy))
+
+names(tidy)<- gsub("\\.","",names(tidy))
+names(tidy)<- gsub("mean","Mean",names(tidy))
+names(tidy)<- gsub("std","StdDev",names(tidy))
+
+write.table(tidy,"tidyData.txt",row.name=FALSE)
+
 
