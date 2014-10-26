@@ -72,6 +72,7 @@ names(tidy)<- gsub("\\.","",names(tidy))
 names(tidy)<- gsub("mean","Mean",names(tidy))
 names(tidy)<- gsub("std","StdDev",names(tidy))
 
+## Write tidy data set to a file
 write.table(tidy,"tidyData.txt",row.name=FALSE)
 
 
